@@ -5,17 +5,22 @@
              xmlns:vm="clr-namespace:PostsApp.ViewModels"
              xmlns:models="clr-namespace:PostsApp.Models"
              x:Class="PostsApp.Views.MainView"
-             Title="MainView" x:DataType="vm:MainViewModel">
+             Title="MainView" x:DataType="vm:MainViewModel" Padding="20">
     <Grid>
         <ActivityIndicator IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center" />
         <CollectionView IsVisible="{Binding IsNotBusy}" ItemsSource="{Binding Items}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Post">
-                    <VerticalStackLayout Padding="20">
-                        <Label Text="{Binding Title, Mode=OneTime}" />
+                    <ContentView Padding="0.10">
+                        <Frame>
+                        <VerticalStackLayout Padding="20">
+                        <Label Text="{Binding Title, Mode=OneTime}" FontSize="Title" />
                         <Label Text="{Binding Body, Mode=OneTime}" />
 
                     </VerticalStackLayout>
+                    </Frame>
+                    </ContentView>
+                    
 
                 </DataTemplate>
 

@@ -7,6 +7,8 @@ global using PostsApp.ViewModels;
 global using PostsApp.Views;
 global using System.Collections.ObjectModel;
 global using PostsApp.Models;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
 namespace NewsApp;
 
 public static class MauiProgram
@@ -26,8 +28,13 @@ public static class MauiProgram
 		builder.Services.AddTransient<MainViewModel>();
 		builder.Services.AddTransient<MainView>();
 
+        builder.Services.AddTransient<PostViewModel>();
+        builder.Services.AddTransient<PostView>();
+
+		Routing.RegisterRoute(nameof(PostViewModel), typeof(PostViewModel));
+
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
 		return builder.Build();

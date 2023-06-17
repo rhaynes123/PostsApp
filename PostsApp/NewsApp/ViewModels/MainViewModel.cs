@@ -1,17 +1,19 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
-namespace PostsApp.ViewModels
+﻿namespace PostsApp.ViewModels
 {
 	public partial class MainViewModel: ViewModel
 	{
 		private readonly IPostsService _newsService;
 		public MainViewModel(IPostsService newsService)
 		{
-			_newsService = newsService;					
+			_newsService = newsService;
+			open = new AsyncRelayCommand<Post>(OpenPostView);
 		}
 
 		[ObservableProperty]
-		private ObservableCollection<Post> items = new();
+		private ObservableCollection<Post> posts = new();
+
+		[ObservableProperty]
+		private AsyncRelayCommand<Post> open;
         public override async Task Initialize()
         {
             await base.Initialize();
@@ -20,7 +22,7 @@ namespace PostsApp.ViewModels
 			{
 				IsBusy = true;
                 List<Post> data = await _newsService.Get();
-                Items = new(data);
+                Posts = new(data);
             }
 			catch(Exception ex)
 			{
@@ -29,6 +31,10 @@ namespace PostsApp.ViewModels
 			IsBusy = false;
         }
 
+		private async Task OpenPostView(Post post)
+		{
+			await Navigation.NavigateTo(nameof(PostViewModel), Posts);
+		}
     }
 }
 
