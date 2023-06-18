@@ -26,14 +26,14 @@
             }
 			catch(Exception ex)
 			{
-				// TODO handle ex
+				await HandleException(ex);
 			}
 			IsBusy = false;
         }
 
 		private async Task OpenPostView(Post post)
 		{
-			await Navigation.NavigateTo(nameof(PostViewModel), Posts);
+			await Navigation.NavigateTo(nameof(PostViewModel), post);
 		}
     }
 }

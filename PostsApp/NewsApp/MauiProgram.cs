@@ -22,7 +22,7 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+			}).UseTinyMvvm();
 		builder.Services.AddSingleton<IPostsService, PostsService>();
 
 		builder.Services.AddTransient<MainViewModel>();
@@ -31,7 +31,7 @@ public static class MauiProgram
         builder.Services.AddTransient<PostViewModel>();
         builder.Services.AddTransient<PostView>();
 
-		Routing.RegisterRoute(nameof(PostViewModel), typeof(PostViewModel));
+		Routing.RegisterRoute(nameof(PostViewModel), typeof(PostView));
 
 #if DEBUG
         builder.Logging.AddDebug();

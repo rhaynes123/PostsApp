@@ -1,6 +1,6 @@
 ﻿namespace PostsApp.Views;
 
-public partial class PostView : ContentPage
+public partial class PostView
 {
 	public PostView(PostViewModel viewModel)
 	{

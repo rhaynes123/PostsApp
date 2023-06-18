@@ -5,13 +5,19 @@
              xmlns:vm="clr-namespace:PostsApp.ViewModels"
              xmlns:models="clr-namespace:PostsApp.Models"
              x:Class="PostsApp.Views.MainView"
-             Title="MainView" x:DataType="vm:MainViewModel" Padding="20">
+             Title="Today's Posts" x:DataType="vm:MainViewModel" Padding="20">
     <Grid>
         <ActivityIndicator IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center" />
-        <CollectionView IsVisible="{Binding IsNotBusy}" ItemsSource="{Binding Items}">
+        <CollectionView x:Name="Posts" IsVisible="{Binding IsNotBusy}" ItemsSource="{Binding Posts}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Post">
                     <ContentView Padding="0.10">
+                        <ContentView.GestureRecognizers>
+                            <TapGestureRecognizer  Command="{Binding Source={x:Reference Posts}, Path=BindingContext.Open}"
+                                                        CommandParameter="{Binding}"/>
+
+
+                        </ContentView.GestureRecognizers>
                         <Frame>
                         <VerticalStackLayout Padding="20">
                         <Label Text="{Binding Title, Mode=OneTime}" FontSize="Title" />

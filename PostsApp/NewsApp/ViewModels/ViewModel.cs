@@ -6,6 +6,11 @@ namespace PostsApp.ViewModels
 		public ViewModel()
 		{
 		}
+
+		protected Task HandleException(Exception exception)
+		{
+			return Task.CompletedTask;
+		}
 	}
 }
 
