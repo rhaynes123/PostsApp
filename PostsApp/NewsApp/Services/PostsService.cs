@@ -6,34 +6,31 @@ namespace PostsApp.Services
 {
 	public class PostsService: IPostsService
 	{
-        private const string _dataUrl = "https://jsonplaceholder.typicode.com/posts";
-        private HttpClient _httpClient;
-        public PostsService()
+        private readonly HttpClient _httpClient;
+        public PostsService(IHttpClientFactory clientFactory)
 		{
-            _httpClient = new HttpClient();
+            _httpClient = clientFactory.CreateClient("PostsClient");
 		}
         
         public async Task<List<Post>> Get()
         {
-            var response = await _httpClient.GetAsync(_dataUrl);
+            var response = await _httpClient.GetAsync("/posts");
 
-            if(response.StatusCode == System.Net.HttpStatusCode.NotModified)
+            if (!response.IsSuccessStatusCode)
             {
-
+                return new List<Post>();
             }
-            else if (response.IsSuccessStatusCode)
+            
+            var json = await response.Content.ReadAsStringAsync();
+
+            var result = JsonSerializer.Deserialize<List<Post>>(json, new JsonSerializerOptions()
             {
-                var json = await response.Content.ReadAsStringAsync();
+                PropertyNameCaseInsensitive = true,
+                AllowTrailingCommas = true
+            });
 
-                var result = JsonSerializer.Deserialize<List<Post>>(json, new JsonSerializerOptions()
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-
-                return result;
-            }
-
-            return new List<Post>();
+            return result;
+            
         }
     }
 }
